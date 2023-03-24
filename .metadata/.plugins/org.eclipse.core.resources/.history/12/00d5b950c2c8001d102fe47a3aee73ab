@@ -1,0 +1,30 @@
+package example;
+
+public class Asdf {
+
+	public static void main(String[] args) {
+		  String message = null;
+
+		    try {
+
+		        int denominator = 0;
+
+		        int numerator = 15;
+
+		        int calculationResult = numerator / denominator;
+
+		        message = " 연산결과 : " + calculationResult;
+		        System.out.println(message.trim());
+
+		    } catch(Exception exception) {
+
+		        System.out.println("0으로 나눌 수 없습니다.");
+		      
+		    }
+
+		    
+
+		
+	}
+
+}
