@@ -50,7 +50,7 @@ public class PostBoardResponseDto {
 		this.viewCount = board.getViewCount();
 		this.likeList = board.getLikeList();
 		this.commentList = board.getCommentList();
-	}
+	} // 이거뭔데?모르겠음
 	
 	
 	

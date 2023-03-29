@@ -37,7 +37,7 @@ public class User { // 보관하고 관리하는 용도
 		this.phoneNumber = dto.getPhoneNumber();
 		this.address = dto.getAddrress();
 		this.addressDetail = dto.getAddrressDetail();
-	}
+	} // 이해가 안됨.
 
 	public String getEmail() {
 		return email;

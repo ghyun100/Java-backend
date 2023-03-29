@@ -20,8 +20,9 @@ public class BoardApplication {
 	
 	private static final String POST_BOARD = "POST /board"; //글을 씀,게시 함
 	
+	private static final String GET_BOARD_LIST = "GET /board/list"; // 리스트를 보여줌
 	private static final String GET_BOARD = "GET /board";
-	private static final String GET_BOARD_LIST = "GET /board/list";
+	
 	
 	private static final String PATCH_BOARD = "PATCH /board";// 수정
 	
@@ -59,7 +60,7 @@ public class BoardApplication {
 				
 				userController.signUp(signUpDto);
 				
-				break;
+				break; // swhitch를 빠져나가는거지 while을 빠져나가는게 아님
 				
 			case SIGN_IN:
 				SignInDto signInDto = new SignInDto();
@@ -117,7 +118,7 @@ public class BoardApplication {
 					patchBoardDto.setContent(scanner.nextLine());
 					System.out.print("이미지 : ");
 					patchBoardDto.setBoardImageUrl(scanner.nextLine());
-					System.out.println("이메일 : ");
+					System.out.println("작성자 이메일 : ");
 					patchBoardDto.setEmail(scanner.nextLine());
 				} catch (Exception exception) {
 					exception.printStackTrace();
