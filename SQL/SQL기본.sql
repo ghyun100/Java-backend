@@ -305,3 +305,110 @@ ADD CONSTRAINT foreign_key_1
 FOREIGN KEY (foreign_field)
 REFERENCES Referenced_Table (primary_key)
 
+-- 조인을 위해 테이블하나 만들기
+CREATE TABLE Room (
+	room_number VARCHAR(4) PRIMARY KEY,
+    room_type VARCHAR(20) NOT NULL,
+    room_amount INT NOT NULL,
+	custom_id INT,
+    CONSTRAINT Room_Foreign_Key
+	FOREIGN KEY (custom_id)
+    REFERENCES Custom (id)
+);
+
+INSERT INTO Room VALUES ('1001', '비지니스', 200, 1);
+INSERT INTO Room VALUES('1203', 'VIP', 1000, 10);
+INSERT INTO Room VALUES('1801', 'VIP', 1000, 12);
+
+INSERT INTO Room VALUES ('1002', '비지니스', 200, 1);
+INSERT INTO Room VALUES('1204', 'VIP', 1000, 10);
+INSERT INTO Room VALUES('1802', 'VIP', 1000, 12);
+
+INSERT INTO Room VALUES ('1003', '비지니스', 200, null);
+INSERT INTO Room VALUES('1205', 'VIP', 1000,  null);
+INSERT INTO Room VALUES('1803', 'VIP', 1000,  null);
+
+SELECT * FROM Room;
+
+-- JOIN
+-- 여러개의 테이블에서 관계로 연결되어 있는 표현을 하나로 검색하도록 해주는 쿼리
+
+-- INNER JOIN
+-- FROM 첫 번째 테이블 INNER JOIN 두번째 테이블 ON 조건
+-- FROM 첫 번째 테이블 JOIN 두번째 테이블 ON 조건
+-- FROM 첫 번째 테이블, 두번째 테이블 WHERE 조건
+SELECT R.room_number AS '방번호', C.name AS '고객이름'
+FROM Room R INNER JOIN Custom C
+ON C.id = R.custom_id; -- 조건을 붙인 것, 별칭도 정해줌
+
+SELECT * 
+FROM Room JOIN Custom; -- 조건이 없어서 전부 연결 3 * 9 = 27개가 나올 것.( = cross join(MySQL에서는 join과 cross join이 동일))
+
+SELECT *
+FROM Room, Custom
+WHERE Room.custom_id = Custom.id;
+
+
+-- LEFT JOIN
+-- FROM 첫 번째 테이블 LEFT JOIN 두번째테이블 ON 조건
+
+SELECT *
+FROM Room LEFT JOIN Custom
+ON Room.custom_id = Custom.id;
+
+
+INSERT INTO Custom VALUES (20, 'David', 'David@gmail.com', 30, 'New york', 1);
+-- RIGFT JOIN
+-- FROM 첫 번째 테이블 RIGHT JOIN 두번째테이블 ON 조건
+SELECT *
+FROM Room RIGHT JOIN Custom
+ON Room.custom_id = Custom.id;
+
+-- Sub Query
+-- 복잡한 Join문을 조금 더 간결하게 사용할 수 있도록 해주는 쿼리
+-- SELECT, INSERTM UPDATEM DELETE, SET, DO 에서 사용가능
+-- FROM, WHERE 절에서 사용가능
+
+-- WHERE절에서 사용
+SELECT *
+FROM Room
+WHERE custom_id IN (
+	SELECT id   -- 조건을 넣을 적에 하나만 적을 수 있음 
+    FROM custom
+    WHERE name = 'Michle'
+); 
+-- subquery만 실행해보기
+SELECT id
+FROM custom
+WHERE name = 'Michle';
+
+-- ex) IN 연산 + LIKE
+
+SELECT *
+FROM Custom
+WHERE id IN (
+	SELECT id
+    FROM Custom
+    WHERE name LIKE 'M%'
+    OR name LIKE 'D%'
+    );
+
+
+-- FROM절에서 사용
+SELECT CustomId
+FROM (
+	SELECT id AS CustomId, email AS CustomEmail
+    FROM Custom 
+) C;
+
+
+-- ORDER BY (정렬)
+-- 특정 필드를 기준으로 오름차순 내림차순 정렬하여 결과를 반환
+
+-- 내림차순 DESC
+SELECT * 
+FROM Namgu
+ORDER BY 세대수 DESC;
+
+SELECT * FROM Namgu
+ORDER BY 통 DESC, 반 ASC;
