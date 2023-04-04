@@ -303,7 +303,7 @@ CREATE TABLE Foreign_Table2 (
 ALTER TABLE Foreign_Table2
 ADD CONSTRAINT foreign_key_1
 FOREIGN KEY (foreign_field)
-REFERENCES Referenced_Table (primary_key)
+REFERENCES Referenced_Table (primary_key);
 
 -- 조인을 위해 테이블하나 만들기
 CREATE TABLE Room (
@@ -412,3 +412,101 @@ ORDER BY 세대수 DESC;
 
 SELECT * FROM Namgu
 ORDER BY 통 DESC, 반 ASC;
+
+-- ---------------------------------------------------------------------
+
+-- View
+-- 복잡한 쿼리문 (select)을 미리 작성해두고 재사용 할 수 있도록 해주는 
+-- 읽기 전용의 가상 테이블 
+
+-- 읽기 전용이기 때문에 테이블의 삽입, 수정, 삭제 작업의 제약을 걸 때
+-- 사용할 수 있음
+
+-- CREATE VIEW 뷰이름 AS
+-- SELECT ~~
+
+CREATE VIEW Join_RESULT AS
+SELECT R.room_number AS '방번호', C.name AS '고객이름'
+FROM Room R INNER JOIN Custom C
+ON C.id = R.custom_id;
+
+SELECT * FROM Join_Result
+WHERE 방번호 = 1002;
+
+-- ALTER VIEW 뷰이름 AS
+-- SELECT ~~
+ALTER VIEW Join_Result AS
+SELECT R.room_number AS '방번호', C.name AS '고객이름', C.email AS '고객이메일'
+FROM Room R INNER JOIN Custom C
+ON C.id = R.custom_id;
+
+SELECT * FROM Join_Result;
+
+-- DROP VIEW 뷰이름;
+DROP VIEW Join_Result;
+
+
+-- INDEX
+-- 테이블의 검색 속도를 향상 시켜주는 기능을 담당하는 요소 
+-- 인덱스가 적용되어 있는 필드의 경우 해당 필드를 조건으로 검색을 시도할 때
+-- 검색 속도가 향상됨
+
+-- 인덱스가 적용되어 있는 필드를 수정할 경우 인데긋도 함께 변경되어
+-- 검색 속도에 영향을 미칠 수가 있음
+
+-- CREATE INDEX 인덱스명
+-- ON 테이블명 (필드명, ...);
+
+CREATE INDEX seadeasu_index
+ON Namgu (세대수);
+-- Namgu테이블 설정들어가서 indexes보면 index설정되어있음
+-- 세대수로만 검색했을 때
+
+-- SHOW INDEX FROM 테이블명;
+SHOW INDEX FROM Namgu;
+
+-- 세대수, 인구수, 통으로 인덱스 걸어주면 이 순서로 WHERE걸어줬을 때 검색속도가 빠름 
+CREATE INDEX seadeasu_index_2
+ON Namgu (세대수, 인구수, 통);
+
+-- UNIQUE INDEX
+CREATE UNIQUE INDEX seadeasu_unique_index
+ON Namgu (세대수);
+
+-- ----------------------------------------------------------------------
+
+
+-- DCL
+-- Data Control Language
+-- 권한 제어 및 트랜잭션 제어를 담당하는 쿼리문의 집합
+
+-- 사용자 권한
+CREATE USER 'Developer_user '@'%' IDENTIFIED BY 'P!ssw0rd';
+
+-- GRANT
+-- 사용자에게 권한을 부여하는 쿼리문
+-- GRANT 권한1, ... ON 데이터베이스.테이블 TO 사용자이름@호스트;
+GRANT CREATE, INSERT, UPDATE, SELECT, DELETE 
+ON HOTEL.* TO 'Developer_user '@'%';
+
+-- REVOKE
+-- 사용자로부터 권한을 회수하는 쿼리문
+-- REVOKE 권한1, ... ON 데이터베이스.테이블 FROM 사용자이름@호스트;
+REVOKE CREATE ON HOTEL.* FROM 'Developer_user '@'%';
+
+-- COMMIT
+-- 트랜잭션을 영구적으로 반영하는 쿼리문
+COMMIT;
+
+-- ROLLBACK
+-- 트랜잭션을 취소하고 되돌려놓는 쿼리문
+ROLLBACK;
+
+
+
+
+
+
+
+
+
