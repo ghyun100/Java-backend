@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>네이버 : 로그인</title>
     <link rel="stylesheet" href="./naver-sign-in.css" />
+    <script>
+        const onSubmitHandler = () => {
+            const id = document.getElementById('id').value;
+            if (!id.trim()) {
+                document.getElementById('sign-in-error').style.display = 'block';
+                return;
+            }
+            document.getElementById('sign-in-error').style.display = 'none';
+            const form = document.getElementById('form');
+            form.submit();
+        }
+    </script>
 </head>
 <body>
     <!-- Header -->
@@ -27,7 +39,7 @@
         <div class="content">
             <!-- 로그인  wrapper -->
             <div class="sign-in-wrapper">
-                <form action="https://nid.naver.com/nimlogin.login" method="POST">
+                <form id="form" action="https://nid.naver.com/nidlogin.login" method="POST">
                     <ul class="panel-wrapper">
                         <li class="panel-item">
                             <div class="panel-inner">
@@ -58,9 +70,15 @@
                                     </div>
                                     <div class="ip-check"></div>
                                 </div>
+                                <!-- Sign In Error -->
+                                <div id="sign-in-error" class="sign-in-error" style="display: none;">
+                                    <div class="error-message">
+                                        <strong>아이디</strong>를 입력하세요.
+                                    </div>
+                                </div>
                                 <!-- Sign In button wrapper -->
                                 <div class="sign-in-button-wrapper">
-                                    <button type="submit" class="sign-in-button">
+                                    <button type="button" class="sign-in-button" onClick="onSubmitHandler()">
                                         <span class="button-text">로그인</span>
                                     </button>
                                 </div>
@@ -94,10 +112,10 @@
     <div class="footer">
         <div class="footer-inner">
             <ul class="footer-link">
-                <li><a class="footer-item"><span class="text">이용약관</span></a></li>
-                <li><a class="footer-item"><span class="text"><strong>개인정보처리방침</strong></span></a></li>
-                <li><a class="footer-item"><span class="text">책임의 한계와 법적고지</span></a></li>
-                <li><a class="footer-item"><span class="text">회원정보 고객센터</span></a></li>
+                <li><a class="footer-item"><sapn class="text">이용약관</sapn></a></li>
+                <li><a class="footer-item"><sapn class="text"><strong>개인정보처리방침</strong></sapn></a></li>
+                <li><a class="footer-item"><sapn class="text">책임의 한계와 법적고지</sapn></a></li>
+                <li><a class="footer-item"><sapn class="text">회원정보 고객센터</sapn></a></li>
             </ul>
             <div class="footer-copy">
                 <a href="https://www.navercorop.com">
