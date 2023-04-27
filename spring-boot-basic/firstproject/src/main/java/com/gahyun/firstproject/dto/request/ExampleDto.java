@@ -3,7 +3,6 @@ package com.gahyun.firstproject.dto.request;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.*;
 
 import org.hibernate.validator.constraints.Length;
 

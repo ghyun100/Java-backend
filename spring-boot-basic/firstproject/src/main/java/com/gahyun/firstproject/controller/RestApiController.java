@@ -1,8 +1,8 @@
 package com.gahyun.firstproject.controller;
 
-
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gahyun.firstproject.dto.request.ExampleDto;
 import com.gahyun.firstproject.dto.response.ExampleResponseDto;
+import com.gahyun.firstproject.service.implement.RestApiServiceImplement;
+
 
 class ParamDto {
     private String data1;
@@ -45,10 +47,16 @@ class ParamDto {
 @RequestMapping("api")
 public class RestApiController {
     
+  
+    private RestApiServiceImplement restApiService;
+
+    public RestApiController(RestApiServiceImplement restApiService) {
+        this.restApiService = restApiService;
+    }
+
     @RequestMapping(method={RequestMethod.GET}, value="hello2")
     public String hello2() {
         return "hello2";
-
     }
 
     // GET Method @GetMapping
@@ -56,29 +64,37 @@ public class RestApiController {
     // @RequestMapping(method=RequestMethod.GET, value="get-method")
     @GetMapping("get-method")
     public String getMethod() {
-        return "Response of Get Request";
+        // return "Response of get Request";
+        return restApiService.getMethod();
     }
 
-    // Post Method @PostMapping
-    // Post Method : 클라이언트가 서버에 데이터를 작성하기 위한 요청의 Method -> 브라우저에서는 요청이 안감
+    // POST Method @PostMapping
+    // POST Method : 클라이언트가 서버에 데이터를 작성하기 위한 요청의 Method -> 브라우저에서는 요청이 안감
     // @RequestMapping(method=RequestMethod.POST, value="post-method")
     @PostMapping("post-method")
     public String postMethod() {
-        return "Respose of Post Request";
+        // return "Response of post Request";
+        return restApiService.postMethod();
     }
 
-    // Patch Method @PatchMapping
-    // Patch Method : 클라이언트가 서버에 데이터를 일부만 수정하기 위한 요청의 Method -> 브라우저에서는 요청이 안감
+    // Path Method @PatchMapping
+    // Path Method : 클라이언트가 서버에 데이터를 일부만 수정하기 위한 요청의 Method -> 브라우저에서는 요청이 안감
     // @RequestMapping(method=RequestMethod.PATCH, value="patch-method")
     @PatchMapping("patch-method")
     public String patchMethod() {
-        return "Response of Patch Request";
+        // return "Response of patch Request";
+        return restApiService.patchMethod();
     }
     
     // Delete Method @DeleteMapping
-    // Delete Method : 클라이언트가 서버에 데이터를 삭제하기 위한 요청의 Method -> 브라우저에서는 요청이 안감
+    // Delete Method : 클라이언트가 서버에 데이터를 삭제하기 위한 요청의 method -> 브라우저에서는 요청이 안감
     // @RequestMapping(method=RequestMethod.DELETE, value="delete-method")
-    
+    @DeleteMapping("delete-method") 
+    public String deleteMethod(){
+       // return "Response of Delete Request";
+       return restApiService.deleteMethod();
+       
+    }
 
     // PathVariable() 로 Get, Delete Method에서 데이터 받기
     // 리소스에 지정한 패턴에 맞춰서 요청의 URL을 지정한다면 패턴에 맞춰 데이터를 받아오는 형식
@@ -106,7 +122,7 @@ public class RestApiController {
 
     // @RequestBody 로 Post, Put, Patch Method에서 데이터 받기
     // Request Body 에 있는 데이터를 받기 위한 어노테이션
-    // POST : http://localhost:4040/api/request-body -> body에 row 에서
+    // POST : http://localhost:4040/api/request-body -> body에 row에서(JSON)
     @PostMapping("request-body")
     public ResponseEntity<ParamDto> requestBody(
        // @RequestBody String data
@@ -114,30 +130,34 @@ public class RestApiController {
     ) {
         return ResponseEntity.status(408).body(dto);
     }
+
+    // POST : http://localhost:4040/api/lombok -> body에 row에서(JSON)
+    @PostMapping("lombok")
+    public ExampleResponseDto lombok(
+            @Valid @RequestBody ExampleDto requestBody
+    ) {
+            String data1 = requestBody.getParameter1();
+            String data2 = requestBody.getParameter2();
+            String data3 = requestBody.getParameter3();
+         
+            // ExampleResponseDto responseData = 
+            // new ExampleResponseDto(data1, data2, data3);
+
+            ExampleResponseDto responseData = 
+                ExampleResponseDto.builder().data1(data1).build();
+
+            System.out.println(responseData.toString());
+
+            return responseData;
+    }
+
     
-     // POST : http://localhost:4040/api/lombok -> body에 row에서(JSON)
-     @PostMapping("lombok")
-     public ExampleResponseDto lombok(
-             @Valid @RequestBody ExampleDto requestBody
-     ) {
-             String data1 = requestBody.getParameter1();
-             String data2 = requestBody.getParameter2();
-             String data3 = requestBody.getParameter3();
-          
-             // ExampleResponseDto responseData = 
-             // new ExampleResponseDto(data1, data2, data3);
- 
-             ExampleResponseDto responseData = 
-                 ExampleResponseDto.builder().data1(data1).build();
- 
-             System.out.println(responseData.toString());
- 
-             return responseData;
-     }
- 
- 
-
-
 
 
 }
+ 
+
+
+
+
+
