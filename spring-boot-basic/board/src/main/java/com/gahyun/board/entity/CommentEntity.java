@@ -18,11 +18,13 @@ import lombok.NoArgsConstructor;
 public class CommentEntity {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int commentNumber;
     private String userEmail;
     private int boardNumber;
     private String commentContent;
     private String writeDatetime;
-    
+    private String userNickname;
+    private String userProfileImageUrl;
+
 }

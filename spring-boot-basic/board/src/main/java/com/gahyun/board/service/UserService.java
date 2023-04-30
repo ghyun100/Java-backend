@@ -6,7 +6,7 @@ import com.gahyun.board.dto.request.user.PostUserRequestDto;
 import com.gahyun.board.dto.response.ResponseDto;
 
 public interface UserService {
-
+    
     public ResponseEntity<ResponseDto> postUser(PostUserRequestDto dto);
 
 }

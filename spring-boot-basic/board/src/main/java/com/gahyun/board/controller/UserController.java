@@ -23,14 +23,12 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
+    
     @PostMapping("")
     public ResponseEntity<ResponseDto> postUser(
-    @Valid @RequestBody PostUserRequestDto requestBody
-    ){
+        @Valid @RequestBody PostUserRequestDto requestBody
+    ) {
         ResponseEntity<ResponseDto> response = userService.postUser(requestBody);
         return response;
     }
-
-
 }

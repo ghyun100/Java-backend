@@ -2,8 +2,6 @@ package com.gahyun.board.dto.response.board;
 
 import java.util.List;
 
-import com.gahyun.board.dto.response.ResponseDto;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -13,9 +11,9 @@ import lombok.Setter;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetBoardListResponseDto extends ResponseDto {
+public class GetBoardListResponseDto extends com.gahyun.board.dto.response.ResponseDto {
     private List<BoardSummary> boardList;
-} 
+}
 
 @Getter
 @Setter

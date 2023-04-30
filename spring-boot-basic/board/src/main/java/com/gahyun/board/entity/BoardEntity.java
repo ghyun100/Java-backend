@@ -15,16 +15,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name="Board")
 @Table(name="Board")
 public class BoardEntity {
-
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int boardNumber;
     private String writerEmail;
     private String title;
@@ -36,14 +35,15 @@ public class BoardEntity {
     public BoardEntity(PostBoardRequestDto dto) {
         Date now = new Date();
         SimpleDateFormat simpleDateFormat =
-            new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-            String writeDatetime = simpleDateFormat.format(now);
+        new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        
+        String writeDatetime = simpleDateFormat.format(now);
 
         this.writerEmail = dto.getBoardWriterEmail();
         this.title = dto.getBoardTitle();
         this.content = dto.getBaordContent();
         this.boardImageUrl = dto.getBoardImageUrl();
+        this.writeDatetime = writeDatetime;
         this.viewCount = 0;
     }
-
 }
